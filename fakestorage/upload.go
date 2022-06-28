@@ -371,6 +371,7 @@ func (s *Server) multipartUpload(bucketName string, r *http.Request) jsonRespons
 func (s *Server) resumableUpload(bucketName string, r *http.Request) jsonResponse {
 	predefinedACL := r.URL.Query().Get("predefinedAcl")
 	contentEncoding := r.URL.Query().Get("contentEncoding")
+	contentType := r.Header.Get("Content-Type")
 	metadata := new(multipartMetadata)
 	if r.Body != http.NoBody {
 		var err error
@@ -387,6 +388,7 @@ func (s *Server) resumableUpload(bucketName string, r *http.Request) jsonRespons
 		ObjectAttrs: ObjectAttrs{
 			BucketName:      bucketName,
 			Name:            objName,
+			ContentType:     contentType,
 			ContentEncoding: contentEncoding,
 			ACL:             getObjectACL(predefinedACL),
 			Metadata:        metadata.Metadata,
