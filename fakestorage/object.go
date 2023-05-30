@@ -528,7 +528,9 @@ func (s *Server) deleteObject(r *http.Request) jsonResponse {
 	} else {
 		s.eventManager.Trigger(&backendObj, notification.EventDelete, nil)
 	}
-	return jsonResponse{}
+	return jsonResponse{
+		status: http.StatusNoContent,
+	}
 }
 
 func (s *Server) listObjectACL(r *http.Request) jsonResponse {
